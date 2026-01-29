@@ -33,11 +33,24 @@ public class ProdutosDAO {
             prep.execute();
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");      
         } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + erro.getMessage());
-        }
-    }
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + erro.getMessage());}}
     public ArrayList<ProdutosDTO> listarProdutos(){
-        
+        String sql = "SELECT * FROM produtos";
+        conn = new conectaDAO().connectDB();
+        try {
+        prep = conn.prepareStatement(sql);
+        resultset = prep.executeQuery();
+        listagem.clear();
+        while (resultset.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(resultset.getInt("id"));
+            produto.setNome(resultset.getString("nome"));
+            produto.setValor(resultset.getInt("valor"));
+            produto.setStatus(resultset.getString("status"));
+            listagem.add(produto);}
+    } catch (Exception erro) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar: " + erro.getMessage());
+    } 
         return listagem;
     }
     
